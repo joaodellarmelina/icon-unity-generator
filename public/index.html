@@ -1,151 +1,169 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Unity Icon Generator</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unity Icon Generator</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-31x31.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <meta property="og:title" content="Unity Icon Generator">
+    <meta property="og:description"
+      content="Generate all required Unity icons instantly from a single image.">
+    <meta property="og:image" content="https://unity-icon-generator.vercel.app">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Unity Icon Generator">
+    <meta name="twitter:description" content="Generate Unity icons instantly.">
+    <meta name="twitter:image" content="https://unity-icon-generator.vercel.app">
+  </head>
 
-<body>
+  <body>
 
-<div class="divBy">
-  <p class="byJoao">
-    by <a target="_blank" class="linkJoao" href="https://www.joaodellarmelina.com/quem-sou">
-      João Dellarmelina
-    </a>
-  </p>
+    <div class="divBy">
+      <p class="byJoao">
+        by <a target="_blank" class="linkJoao"
+          href="https://www.joaodellarmelina.com/quem-sou">
+          João Dellarmelina
+        </a>
+      </p>
 
-  <select id="languageSelect" class="lang-select">
-    <option value="pt-BR">🇧🇷 PT</option>
-    <option value="en">🇺🇸 EN</option>
-    <option value="es">🇪🇸 ES</option>
-  </select>
-</div>
+      <select id="languageSelect" class="lang-select">
+        <option value="pt-BR">🇧🇷 PT</option>
+        <option value="en">🇺🇸 EN</option>
+        <option value="es">🇪🇸 ES</option>
+      </select>
+    </div>
 
-<div class="page">
-  <div class="card">
+    <div class="page">
+      <div class="card">
 
-    <h1 id="title">unity icon generator.</h1>
+        <h1 id="title">unity icon generator.</h1>
 
-    <p id="subtitle" class="subtitle">
-      Envie uma imagem quadrada com no mínimo 1024x1024 para gerar apenas os ícones que você precisa.
-    </p>
+        <p id="subtitle" class="subtitle">
+          Envie uma imagem quadrada com no mínimo 1024x1024 para gerar apenas os
+          ícones que você precisa.
+        </p>
 
-    <form id="uploadForm" class="upload-form">
+        <form id="uploadForm" class="upload-form">
 
-      <label id="dropZone" class="drop-zone" for="fileInput">
-        <input id="fileInput" type="file" name="icon" accept="image/png,image/jpeg,image/webp" hidden required />
+          <label id="dropZone" class="drop-zone" for="fileInput">
+            <input id="fileInput" type="file" name="icon"
+              accept="image/png,image/jpeg,image/webp" hidden required />
 
-        <div class="drop-content">
-          <div class="upload-icon">+</div>
+            <div class="drop-content">
+              <div class="upload-icon">+</div>
 
-          <h2 id="dropTitle">Arraste sua imagem aqui</h2>
-          <p id="dropText">ou clique para selecionar</p>
+              <h2 id="dropTitle">Arraste sua imagem aqui</h2>
+              <p id="dropText">ou clique para selecionar</p>
 
-          <span id="fileHint" class="file-hint">
-            PNG, JPG ou WEBP • mínimo 1024x1024
-          </span>
-        </div>
-      </label>
-
-      <div class="selectors-box">
-
-        <div class="selectors-header">
-          <h3 id="selectImagesTitle">Selecione quais imagens gerar</h3>
-
-          <label class="inline-check">
-            <input type="checkbox" id="selectAllTargets" />
-            <span id="selectAllLabel">Selecionar tudo</span>
-          </label>
-        </div>
-
-        <div class="checkbox-grid">
-
-          <label class="check-card">
-            <input type="checkbox" name="targets" value="ios" checked />
-            <span id="iosLabel">iOS</span>
+              <span id="fileHint" class="file-hint">
+                PNG, JPG ou WEBP • mínimo 1024x1024
+              </span>
+            </div>
           </label>
 
-          <label class="check-card">
-            <input type="checkbox" name="targets" value="android" checked />
-            <span id="androidLabel">Android</span>
-          </label>
+          <div class="selectors-box">
 
-          <label class="check-card">
-            <input type="checkbox" name="targets" value="windows" checked />
-            <span id="windowsLabel">Windows</span>
-          </label>
+            <div class="selectors-header">
+              <h3 id="selectImagesTitle">Selecione quais imagens gerar</h3>
 
-        </div>
+              <label class="inline-check">
+                <input type="checkbox" id="selectAllTargets" />
+                <span id="selectAllLabel">Selecionar tudo</span>
+              </label>
+            </div>
 
-        <div id="androidOptions" class="sub-options">
+            <div class="checkbox-grid">
 
-          <h4 id="androidVariantsTitle">Variantes do Android</h4>
+              <label class="check-card">
+                <input type="checkbox" name="targets" value="ios" checked />
+                <span id="iosLabel">iOS</span>
+              </label>
 
-          <div class="checkbox-grid small">
+              <label class="check-card">
+                <input type="checkbox" name="targets" value="android" checked />
+                <span id="androidLabel">Android</span>
+              </label>
 
-            <label class="check-card">
-              <input type="checkbox" name="androidVariants" value="api26" checked />
-              <span id="api26Label">API 26</span>
-            </label>
+              <label class="check-card">
+                <input type="checkbox" name="targets" value="windows" checked />
+                <span id="windowsLabel">Windows</span>
+              </label>
 
-            <label class="check-card">
-              <input type="checkbox" name="androidVariants" value="api25" checked />
-              <span id="api25Label">API 25 & Legacy</span>
-            </label>
+            </div>
+
+            <div id="androidOptions" class="sub-options">
+
+              <h4 id="androidVariantsTitle">Variantes do Android</h4>
+
+              <div class="checkbox-grid small">
+
+                <label class="check-card">
+                  <input type="checkbox" name="androidVariants" value="api26"
+                    checked />
+                  <span id="api26Label">API 26</span>
+                </label>
+
+                <label class="check-card">
+                  <input type="checkbox" name="androidVariants" value="api25"
+                    checked />
+                  <span id="api25Label">API 25 & Legacy</span>
+                </label>
+
+              </div>
+
+            </div>
+          </div>
+
+          <div id="previewContainer" class="preview-container hidden">
+
+            <h3 id="previewTitle">Pré-visualização</h3>
+
+            <div class="preview-box">
+              <img id="previewImage" />
+            </div>
+
+            <div class="file-meta" id="fileMeta"></div>
 
           </div>
 
-        </div>
-      </div>
+          <div id="progressSection" class="progress-section hidden">
 
-      <div id="previewContainer" class="preview-container hidden">
+            <div class="progress-header">
+              <span id="processingText">Processando imagem...</span>
+              <span id="progressText">0%</span>
+            </div>
 
-        <h3 id="previewTitle">Pré-visualização</h3>
+            <div class="progress-bar">
+              <div id="progressFill" class="progress-fill"></div>
+            </div>
 
-        <div class="preview-box">
-          <img id="previewImage" />
-        </div>
+          </div>
 
-        <div class="file-meta" id="fileMeta"></div>
+          <div id="statusMessage" class="status-message"></div>
 
-      </div>
+          <div class="actions">
 
-      <div id="progressSection" class="progress-section hidden">
+            <button type="submit" id="generateButton" class="primary-btn">
+              Gerar ícones
+            </button>
 
-        <div class="progress-header">
-          <span id="processingText">Processando imagem...</span>
-          <span id="progressText">0%</span>
-        </div>
+            <button type="button" id="resetButton" class="secondary-btn">
+              Limpar
+            </button>
 
-        <div class="progress-bar">
-          <div id="progressFill" class="progress-fill"></div>
-        </div>
+          </div>
 
-      </div>
-
-      <div id="statusMessage" class="status-message"></div>
-
-      <div class="actions">
-
-        <button type="submit" id="generateButton" class="primary-btn">
-          Gerar ícones
-        </button>
-
-        <button type="button" id="resetButton" class="secondary-btn">
-          Limpar
-        </button>
+        </form>
 
       </div>
+    </div>
 
-    </form>
+    <script src="app.js"></script>
 
-  </div>
-</div>
+  </body>
 
-<script src="app.js"></script>
-
-</body>
 </html>
