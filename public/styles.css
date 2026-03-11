@@ -1,25 +1,25 @@
 :root {
-  --bg: #0f1115;
-  --bg-soft: #171a21;
-  --card: #1e232d;
-  --card-2: #252b36;
-  --border: rgba(255, 255, 255, 0.08);
-  --border-strong: rgba(255, 255, 255, 0.16);
-  --text: #f3f4f6;
-  --muted: #a6adbb;
-  --primary: #00a8ff;
-  --primary-hover: #33b8ff;
-  --success: #22c55e;
-  --error: #ef4444;
-  --warning: #f59e0b;
-  --shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
-  --radius-lg: 22px;
-  --radius-md: 16px;
-  --radius-sm: 12px;
+  --bg: #0d0f12;
+  --bg-soft: #12151a;
+  --card: #161a20;
+  --card-2: #1a1f27;
+  --border: rgba(255, 255, 255, 0.07);
+  --border-strong: rgba(255, 255, 255, 0.12);
+  --text: #f2f2f2;
+  --muted: #9aa3af;
+  --primary: #8fb7ff;
+  --primary-soft: rgba(143, 183, 255, 0.12);
+  --success: #8bd3a8;
+  --error: #ff9b9b;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+  --radius-lg: 24px;
+  --radius-md: 18px;
+  --radius-sm: 14px;
 }
 
 * {
   box-sizing: border-box;
+  text-transform: lowercase;
 }
 
 html,
@@ -30,13 +30,28 @@ body {
 }
 
 body {
-  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    Roboto, sans-serif;
-  background:
-    radial-gradient(circle at top, rgba(0, 168, 255, 0.12), transparent 30%),
-    linear-gradient(180deg, #0b0d11 0%, #11151c 100%);
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
   color: var(--text);
   min-height: 100vh;
+}
+
+.page {
+  min-height: 100vh;
+  padding: 32px 20px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card {
+  width: 100%;
+  max-width: 860px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  padding: 36px;
 }
 
 img {
@@ -52,57 +67,58 @@ textarea {
 }
 
 .divBy {
+  width: min(860px, calc(100% - 40px));
+  margin: 18px auto 0;
   display: flex;
-  justify-content: center;
-  margin-top: 12px;
-}
-
-.linkJoao {
-  color: var(--muted);
-  text-decoration: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
 }
 
 .byJoao {
+  margin: 0;
   color: var(--muted);
-  font-size: 0.85rem;
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  opacity: 0.8;
-  margin-top: 8px;
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
 }
 
-.page {
-  min-height: 100vh;
-  padding: 32px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.linkJoao {
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease, opacity 0.2s ease;
 }
 
-.card {
-  width: 100%;
-  max-width: 920px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+.linkJoao:hover {
+  border-color: var(--border-strong);
+  opacity: 0.9;
+}
+
+.lang-select {
+  background: transparent;
+  color: var(--text);
   border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(10px);
-  padding: 32px;
+  border-radius: 999px;
+  padding: 10px 14px;
+  outline: none;
+  cursor: pointer;
 }
+
 
 h1 {
-  margin: 0 0 10px;
-  font-size: clamp(2rem, 4vw, 2.8rem);
-  line-height: 1.05;
-  letter-spacing: -0.03em;
+  margin: 0 0 12px;
+  font-size: clamp(2rem, 4vw, 2.9rem);
+  line-height: 1;
+  letter-spacing: -0.05em;
+  font-weight: 700;
 }
 
 .subtitle {
-  margin: 0 0 28px;
+  margin: 0 0 32px;
   color: var(--muted);
-  font-size: 1rem;
-  line-height: 1.6;
-  max-width: 720px;
+  font-size: 0.98rem;
+  line-height: 1.7;
+  max-width: 620px;
 }
 
 .upload-form {
@@ -114,30 +130,23 @@ h1 {
 .drop-zone {
   position: relative;
   display: block;
-  border: 1.5px dashed rgba(0, 168, 255, 0.35);
-  background:
-    linear-gradient(180deg, rgba(0, 168, 255, 0.06), rgba(255,255,255,0.02));
-  border-radius: 20px;
-  padding: 34px 24px;
+  border: 1px dashed var(--border-strong);
+  background: var(--bg-soft);
+  border-radius: 22px;
+  padding: 42px 24px;
   cursor: pointer;
-  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease,
-    box-shadow 0.2s ease;
-  overflow: hidden;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
 }
 
 .drop-zone:hover {
+  border-color: rgba(143, 183, 255, 0.35);
+  background: #141820;
   transform: translateY(-1px);
-  border-color: rgba(0, 168, 255, 0.7);
-  background:
-    linear-gradient(180deg, rgba(0, 168, 255, 0.1), rgba(255,255,255,0.03));
-  box-shadow: 0 0 0 4px rgba(0, 168, 255, 0.08);
 }
 
 .drop-zone.dragover {
   border-color: var(--primary);
-  background:
-    linear-gradient(180deg, rgba(0, 168, 255, 0.16), rgba(255,255,255,0.05));
-  box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.12);
+  background: #141a23;
 }
 
 .drop-content {
@@ -149,21 +158,22 @@ h1 {
 }
 
 .upload-icon {
-  width: 68px;
-  height: 68px;
-  border-radius: 18px;
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
   display: grid;
   place-items: center;
-  background: linear-gradient(180deg, rgba(0, 168, 255, 0.18), rgba(255,255,255,0.04));
-  border: 1px solid rgba(0, 168, 255, 0.25);
-  font-size: 1.8rem;
-  color: var(--primary);
+  background: transparent;
+  border: 1px solid var(--border);
+  font-size: 1.2rem;
+  color: var(--muted);
 }
 
 .drop-content h2 {
   margin: 0;
-  font-size: 1.35rem;
-  letter-spacing: -0.02em;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
 }
 
 .drop-content p {
@@ -173,21 +183,21 @@ h1 {
 
 .file-hint {
   display: inline-flex;
-  margin-top: 4px;
-  color: #d0d7e3;
-  background: rgba(255,255,255,0.05);
+  margin-top: 6px;
+  color: var(--muted);
+  background: transparent;
   border: 1px solid var(--border);
   padding: 8px 12px;
   border-radius: 999px;
-  font-size: 0.92rem;
+  font-size: 0.84rem;
 }
 
 .selectors-box,
 .preview-container,
 .progress-section {
-  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+  background: var(--bg-soft);
   border: 1px solid var(--border);
-  border-radius: 18px;
+  border-radius: 20px;
   padding: 20px;
 }
 
@@ -219,6 +229,9 @@ h1 {
 .inline-check input,
 .check-card input {
   accent-color: var(--primary);
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
 }
 
 .checkbox-grid {
@@ -235,23 +248,22 @@ h1 {
   display: flex;
   align-items: center;
   gap: 10px;
-  background: var(--card);
+  background: transparent;
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: 16px;
   padding: 14px 16px;
   cursor: pointer;
-  transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
-  min-height: 56px;
+  transition: border-color 0.2s ease, background 0.2s ease;
+  min-height: 54px;
 }
 
 .check-card:hover {
-  border-color: rgba(0, 168, 255, 0.5);
-  background: var(--card-2);
-  transform: translateY(-1px);
+  border-color: rgba(143, 183, 255, 0.32);
+  background: rgba(255, 255, 255, 0.015);
 }
 
 .check-card span {
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .sub-options {
@@ -273,11 +285,11 @@ h1 {
 }
 
 .preview-box {
-  background: rgba(255,255,255,0.03);
+  background: #111419;
   border: 1px solid var(--border);
-  border-radius: 16px;
+  border-radius: 18px;
   min-height: 220px;
-  padding: 18px;
+  padding: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -286,7 +298,7 @@ h1 {
 .preview-box img {
   max-height: 320px;
   object-fit: contain;
-  border-radius: 12px;
+  border-radius: 14px;
 }
 
 .file-meta {
@@ -312,37 +324,37 @@ h1 {
 
 .progress-bar {
   width: 100%;
-  height: 12px;
-  background: rgba(255,255,255,0.06);
+  height: 8px;
+  background: rgba(255,255,255,0.05);
   border-radius: 999px;
   overflow: hidden;
-  border: 1px solid var(--border);
 }
 
 .progress-fill {
   width: 0%;
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, #008cff 0%, #00c2ff 100%);
+  background: var(--primary);
   transition: width 0.25s ease;
 }
 
 .status-message {
   min-height: 24px;
-  font-size: 0.95rem;
-  line-height: 1.5;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--muted);
 }
 
 .status-message.info {
-  color: #93c5fd;
+  color: var(--muted);
 }
 
 .status-message.success {
-  color: #86efac;
+  color: var(--success);
 }
 
 .status-message.error {
-  color: #fca5a5;
+  color: var(--error);
 }
 
 .actions {
@@ -355,13 +367,12 @@ h1 {
 .secondary-btn {
   appearance: none;
   border: none;
-  border-radius: 14px;
-  padding: 14px 18px;
-  font-weight: 700;
+  border-radius: 999px;
+  padding: 13px 18px;
+  font-weight: 600;
   letter-spacing: -0.01em;
   cursor: pointer;
-  transition: transform 0.18s ease, opacity 0.18s ease, box-shadow 0.18s ease,
-    background 0.18s ease;
+  transition: background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
 }
 
 .primary-btn:hover,
@@ -369,44 +380,44 @@ h1 {
   transform: translateY(-1px);
 }
 
-.primary-btn:active,
-.secondary-btn:active {
-  transform: translateY(0);
-}
-
 .primary-btn {
-  background: linear-gradient(180deg, var(--primary) 0%, #0087cf 100%);
-  color: white;
-  box-shadow: 0 10px 24px rgba(0, 168, 255, 0.24);
+  background: var(--text);
+  color: #0d0f12;
 }
 
 .primary-btn:hover {
-  background: linear-gradient(180deg, var(--primary-hover) 0%, #0095e3 100%);
+  opacity: 0.94;
 }
 
 .secondary-btn {
-  background: rgba(255,255,255,0.05);
+  background: transparent;
   color: var(--text);
   border: 1px solid var(--border);
 }
 
 .secondary-btn:hover {
-  background: rgba(255,255,255,0.08);
+  border-color: var(--border-strong);
+  background: rgba(255,255,255,0.02);
 }
 
 .hidden {
   display: none !important;
 }
-
 @media (max-width: 768px) {
   .page {
     padding: 18px;
     align-items: flex-start;
   }
 
+  .divBy {
+    width: calc(100% - 36px);
+    margin: 16px auto 0;
+    flex-wrap: wrap;
+  }
+
   .card {
-    padding: 22px;
-    border-radius: 18px;
+    padding: 24px;
+    border-radius: 20px;
   }
 
   .checkbox-grid,
@@ -429,44 +440,35 @@ h1 {
   }
 
   .drop-zone {
-    padding: 26px 18px;
-  }
-
-  .preview-box {
-    min-height: 180px;
+    padding: 30px 18px;
   }
 }
 
 @media (max-width: 480px) {
-  body {
-    font-size: 15px;
-  }
-
   .card {
     padding: 18px;
   }
 
   h1 {
-    font-size: 1.8rem;
+    font-size: 1.9rem;
   }
 
   .subtitle {
-    font-size: 0.95rem;
+    font-size: 0.94rem;
   }
 
   .upload-icon {
-    width: 58px;
-    height: 58px;
-    font-size: 1.5rem;
-    border-radius: 16px;
+    width: 48px;
+    height: 48px;
+    font-size: 1.05rem;
   }
 
   .drop-content h2 {
-    font-size: 1.15rem;
+    font-size: 1.05rem;
   }
 
   .file-hint {
-    font-size: 0.84rem;
+    font-size: 0.78rem;
     text-align: center;
     line-height: 1.4;
   }
