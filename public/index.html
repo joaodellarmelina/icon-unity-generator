@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Unity Icon Generator</title>
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
 
+<body>
+  <div class="divBy">
+    <p class="byJoao">by <a target="_blank" class="linkJoao" href="https://joaodellarmelina.com">João Dellarmelina</a></p>
+  </div>
   <div class="page">
     <div class="card">
       <h1>Unity Icon Generator</h1>
@@ -17,14 +21,7 @@
 
       <form id="uploadForm" class="upload-form">
         <label id="dropZone" class="drop-zone" for="fileInput">
-          <input
-            id="fileInput"
-            type="file"
-            name="icon"
-            accept="image/png,image/jpeg,image/webp"
-            hidden
-            required
-          />
+          <input id="fileInput" type="file" name="icon" accept="image/png,image/jpeg,image/webp" hidden required />
 
           <div class="drop-content">
             <div class="upload-icon">⬆</div>
@@ -322,7 +319,7 @@
         console.error(error);
       }
     });
-
   </script>
 </body>
+
 </html>
