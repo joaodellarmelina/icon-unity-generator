@@ -1,8 +1,18 @@
 {
-  "version": 2,
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "functions": {
+    "api/index.js": {
+      "runtime": "nodejs"
+    }
+  },
   "rewrites": [
     {
       "source": "/upload",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/",
       "destination": "/api/index.js"
     }
   ]
