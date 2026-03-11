@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unity Icon Generator</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="page">
+    <div class="card">
+      <h1>Unity Icon Generator</h1>
+      <p class="subtitle">
+        Envie uma imagem quadrada com no mínimo 1024x1024 para gerar apenas os ícones que você precisa.
+      </p>
+
+      <form id="uploadForm" class="upload-form">
+        <label id="dropZone" class="drop-zone" for="fileInput">
+          <input
+            id="fileInput"
+            type="file"
+            name="icon"
+            accept="image/png,image/jpeg,image/webp"
+            hidden
+            required
+          />
+
+          <div class="drop-content">
+            <div class="upload-icon">⬆</div>
+            <h2>Arraste sua imagem aqui</h2>
+            <p>ou clique para selecionar</p>
+            <span class="file-hint">PNG, JPG ou WEBP • mínimo 1024x1024</span>
+          </div>
+        </label>
+
+        <div class="selectors-box">
+          <div class="selectors-header">
+            <h3>Selecione quais imagens gerar</h3>
+            <label class="inline-check">
+              <input type="checkbox" id="selectAllTargets" />
+              <span>Selecionar tudo</span>
+            </label>
+          </div>
+
+          <div class="checkbox-grid">
+            <label class="check-card">
+              <input type="checkbox" name="targets" value="ios" checked />
+              <span>iOS</span>
+            </label>
+
+            <label class="check-card">
+              <input type="checkbox" name="targets" value="android" checked />
+              <span>Android</span>
+            </label>
+
+            <label class="check-card">
+              <input type="checkbox" name="targets" value="windows" checked />
+              <span>Windows</span>
+            </label>
+          </div>
+
+          <div id="androidOptions" class="sub-options">
+            <h4>Variantes do Android</h4>
+            <div class="checkbox-grid small">
+              <label class="check-card">
+                <input type="checkbox" name="androidVariants" value="api26" checked />
+                <span>API 26</span>
+              </label>
+
+              <label class="check-card">
+                <input type="checkbox" name="androidVariants" value="api25" checked />
+                <span>API 25 & Legacy</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div id="previewContainer" class="preview-container hidden">
+          <h3>Pré-visualização</h3>
+          <div class="preview-box">
+            <img id="previewImage" alt="Pré-visualização da imagem selecionada" />
+          </div>
+          <div class="file-meta" id="fileMeta"></div>
+        </div>
+
+        <div id="progressSection" class="progress-section hidden">
+          <div class="progress-header">
+            <span>Processando imagem...</span>
+            <span id="progressText">0%</span>
+          </div>
+          <div class="progress-bar">
+            <div id="progressFill" class="progress-fill"></div>
+          </div>
+        </div>
+
+        <div id="statusMessage" class="status-message"></div>
+
+        <div class="actions">
+          <button type="submit" class="primary-btn">Gerar ícones</button>
+          <button type="button" id="resetButton" class="secondary-btn">Limpar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById("uploadForm");
+    const fileInput = document.getElementById("fileInput");
+    const dropZone = document.getElementById("dropZone");
+    const previewContainer = document.getElementById("previewContainer");
+    const previewImage = document.getElementById("previewImage");
+    const fileMeta = document.getElementById("fileMeta");
+    const resetButton = document.getElementById("resetButton");
+    const statusMessage = document.getElementById("statusMessage");
+    const progressSection = document.getElementById("progressSection");
+    const progressFill = document.getElementById("progressFill");
+    const progressText = document.getElementById("progressText");
+    const selectAllTargets = document.getElementById("selectAllTargets");
+    const androidOptions = document.getElementById("androidOptions");
+
+    let fakeProgressInterval = null;
+
+    function formatFileSize(bytes) {
+      if (bytes < 1024) return `${bytes} B`;
+      if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+      return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+    }
+
+    function setStatus(message, type = "") {
+      statusMessage.textContent = message;
+      statusMessage.className = `status-message ${type}`.trim();
+    }
+
+    function getCheckedValues(name) {
+      return [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(el => el.value);
+    }
+
+    function syncAndroidOptions() {
+      const androidChecked = document.querySelector('input[name="targets"][value="android"]').checked;
+      androidOptions.style.display = androidChecked ? "block" : "none";
+    }
+
+    function syncSelectAll() {
+      const targetChecks = [...document.querySelectorAll('input[name="targets"]')];
+      selectAllTargets.checked = targetChecks.every(input => input.checked);
+    }
+
+    function showPreview(file) {
+      const imageUrl = URL.createObjectURL(file);
+      previewImage.src = imageUrl;
+      fileMeta.textContent = `${file.name} • ${formatFileSize(file.size)}`;
+      previewContainer.classList.remove("hidden");
+      setStatus("");
+    }
+
+    function resetUI() {
+      fileInput.value = "";
+      previewImage.src = "";
+      previewContainer.classList.add("hidden");
+      progressSection.classList.add("hidden");
+      progressFill.style.width = "0%";
+      progressText.textContent = "0%";
+      setStatus("");
+      dropZone.classList.remove("dragover");
+      stopFakeProgress();
+
+      document.querySelectorAll('input[name="targets"]').forEach(input => input.checked = true);
+      document.querySelectorAll('input[name="androidVariants"]').forEach(input => input.checked = true);
+      syncAndroidOptions();
+      syncSelectAll();
+    }
+
+    function startFakeProgress() {
+      let progress = 0;
+      progressSection.classList.remove("hidden");
+      progressFill.style.width = "0%";
+      progressText.textContent = "0%";
+
+      stopFakeProgress();
+
+      fakeProgressInterval = setInterval(() => {
+        if (progress < 90) {
+          progress += Math.floor(Math.random() * 8) + 3;
+          if (progress > 90) progress = 90;
+          progressFill.style.width = `${progress}%`;
+          progressText.textContent = `${progress}%`;
+        }
+      }, 250);
+    }
+
+    function completeProgress() {
+      progressFill.style.width = "100%";
+      progressText.textContent = "100%";
+    }
+
+    function stopFakeProgress() {
+      if (fakeProgressInterval) {
+        clearInterval(fakeProgressInterval);
+        fakeProgressInterval = null;
+      }
+    }
+
+    function handleFile(file) {
+      if (!file) return;
+
+      const validTypes = ["image/png", "image/jpeg", "image/webp"];
+      if (!validTypes.includes(file.type)) {
+        setStatus("Formato inválido. Use PNG, JPG ou WEBP.", "error");
+        return;
+      }
+
+      showPreview(file);
+    }
+
+    fileInput.addEventListener("change", (event) => {
+      const file = event.target.files[0];
+      handleFile(file);
+    });
+
+    dropZone.addEventListener("dragover", (event) => {
+      event.preventDefault();
+      dropZone.classList.add("dragover");
+    });
+
+    dropZone.addEventListener("dragleave", () => {
+      dropZone.classList.remove("dragover");
+    });
+
+    dropZone.addEventListener("drop", (event) => {
+      event.preventDefault();
+      dropZone.classList.remove("dragover");
+
+      const file = event.dataTransfer.files[0];
+      if (file) {
+        fileInput.files = event.dataTransfer.files;
+        handleFile(file);
+      }
+    });
+
+    document.querySelectorAll('input[name="targets"]').forEach(input => {
+      input.addEventListener("change", () => {
+        syncAndroidOptions();
+        syncSelectAll();
+      });
+    });
+
+    selectAllTargets.addEventListener("change", () => {
+      const checked = selectAllTargets.checked;
+      document.querySelectorAll('input[name="targets"]').forEach(input => input.checked = checked);
+      syncAndroidOptions();
+    });
+
+    resetButton.addEventListener("click", resetUI);
+
+    syncAndroidOptions();
+    syncSelectAll();
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const file = fileInput.files[0];
+      if (!file) {
+        setStatus("Selecione uma imagem antes de continuar.", "error");
+        return;
+      }
+
+      const targets = getCheckedValues("targets");
+      const androidVariants = getCheckedValues("androidVariants");
+
+      if (targets.length === 0) {
+        setStatus("Selecione pelo menos uma plataforma.", "error");
+        return;
+      }
+
+      if (targets.includes("android") && androidVariants.length === 0) {
+        setStatus("Selecione pelo menos uma variante do Android.", "error");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("icon", file);
+
+      targets.forEach(target => formData.append("targets", target));
+      androidVariants.forEach(variant => formData.append("androidVariants", variant));
+
+      try {
+        setStatus("Enviando imagem...", "info");
+        startFakeProgress();
+
+        const response = await fetch("/upload", {
+          method: "POST",
+          body: formData
+        });
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          stopFakeProgress();
+          progressSection.classList.add("hidden");
+          setStatus(errorText || "Erro ao processar a imagem.", "error");
+          return;
+        }
+
+        const blob = await response.blob();
+        stopFakeProgress();
+        completeProgress();
+
+        const downloadUrl = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = downloadUrl;
+        a.download = "icons.zip";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        window.URL.revokeObjectURL(downloadUrl);
+
+        setStatus("Ícones gerados com sucesso. O download foi iniciado.", "success");
+      } catch (error) {
+        stopFakeProgress();
+        progressSection.classList.add("hidden");
+        setStatus("Erro de conexão com o servidor.", "error");
+        console.error(error);
+      }
+    });
+
+  </script>
+</body>
+</html>
