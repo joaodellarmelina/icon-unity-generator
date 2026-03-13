@@ -25,7 +25,15 @@ const translations = {
     success: "Ícones gerados com sucesso. O download foi iniciado.",
     connectionError: "Erro de conexão com o servidor.",
     previewAlt: "Pré-visualização da imagem selecionada",
-    processingError: "Erro ao processar a imagem."
+    processingError: "Erro ao processar a imagem.",
+    howTitle: "How does it work.",
+    howSubtitle: "Envie uma imagem, escolha as plataformas e baixe tudo organizado no padrão que a Unity pede.",
+    step1Title: "Upload do ícone",
+    step1Text: "Envie uma imagem quadrada com no mínimo 1024x1024. Você pode arrastar para a área de upload ou clicar para selecionar.",
+    step2Title: "Geramos todos os tamanhos",
+    step2Text: "O gerador cria automaticamente os tamanhos necessários para iOS, Android e Windows, incluindo variantes de Android.",
+    step3Title: "Download do zip",
+    step3Text: "Ao final, o download começa automaticamente com todas as pastas e arquivos organizados para você usar direto no projeto.",
   },
   en: {
     title: "Unity Icon Generator",
@@ -53,7 +61,15 @@ const translations = {
     success: "Icons generated successfully. Download started.",
     connectionError: "Connection error with server.",
     previewAlt: "Preview of selected image",
-    processingError: "Error processing image."
+    processingError: "Error processing image.",
+    howTitle: "How does it work.",
+    howSubtitle: "Upload an image, choose the platforms and download everything organized in the structure Unity requires.",
+    step1Title: "Upload your icon",
+    step1Text: "Upload a square image with at least 1024x1024. You can drag it into the upload area or click to select.",
+    step2Title: "We generate every size",
+    step2Text: "The generator automatically creates the required sizes for iOS, Android and Windows, including Android variants.",
+    step3Title: "Download the zip",
+    step3Text: "At the end, the download starts automatically with all folders and files organized for direct use in your project.",
   },
   es: {
     title: "Unity Icon Generator",
@@ -81,7 +97,15 @@ const translations = {
     success: "Íconos generados correctamente. La descarga ha comenzado.",
     connectionError: "Error de conexión.",
     previewAlt: "Vista previa de la imagen seleccionada",
-    processingError: "Error al procesar la imagen."
+    processingError: "Error al procesar la imagen.",
+    howTitle: "Cómo funciona.",
+    howSubtitle: "Sube una imagen, elige las plataformas y descarga todo organizado en la estructura que Unity requiere.",
+    step1Title: "Sube tu ícono",
+    step1Text: "Sube una imagen cuadrada de al menos 1024x1024. Puedes arrastrarla al área de carga o hacer clic para seleccionarla.",
+    step2Title: "Generamos todos los tamaños",
+    step2Text: "El generador crea automáticamente los tamaños necesarios para iOS, Android y Windows, incluyendo variantes de Android.",
+    step3Title: "Descarga el zip",
+    step3Text: "Al final, la descarga comienza automáticamente con todas las carpetas y archivos organizados para usar directamente en tu proyecto.",
   }
 };
 
@@ -130,6 +154,17 @@ function applyTranslations(lang) {
   document.getElementById("windowsLabel").textContent = texts.windows;
   document.getElementById("api26Label").textContent = texts.api26;
   document.getElementById("api25Label").textContent = texts.api25;
+  document.getElementById("howTitle").textContent = texts.howTitle;
+document.getElementById("howSubtitle").textContent = texts.howSubtitle;
+
+document.getElementById("step1Title").textContent = texts.step1Title;
+document.getElementById("step1Text").textContent = texts.step1Text;
+
+document.getElementById("step2Title").textContent = texts.step2Title;
+document.getElementById("step2Text").textContent = texts.step2Text;
+
+document.getElementById("step3Title").textContent = texts.step3Title;
+document.getElementById("step3Text").textContent = texts.step3Text;
   processingText.textContent = texts.processing;
   previewImage.alt = texts.previewAlt;
 
